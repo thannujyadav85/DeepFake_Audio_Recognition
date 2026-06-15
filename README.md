@@ -20,8 +20,7 @@ The 1D time-domain audio waveform is mathematically transformed into a 2D spatia
 
 1. **Short-Time Fourier Transform (STFT):** Computed using a Hann windowing function with an $N_{\text{fft}}$ window size of $2048$ samples and a hop length of $512$ samples.
 2. **Mel-Scale Filterbank:** The linear power spectrum is mapped onto a Mel-scale filterbank using $128$ distinct frequency bins ($N_{\text{mels}} = 128$) to mimic human auditory perception.
-3. **Power-to-dB Log Scaling:** The raw acoustic power values are compressed into decibels ($\text{dB}$) via log scaling:
-   $$\text{Mel}_{\text{dB}} = 10 \cdot \log_{10}\left(\frac{\text{Mel}_{\text{power}}}{\max(\text{Mel}_{\text{power}})}\right)$$
+3. **Power-to-dB Log Scaling:** The raw acoustic power values are compressed into decibels ($\text{dB}$) via log scaling.
 4. **Min-Max Normalization:** To prevent gradient saturation across deep network layers, the decibel matrix is normalized strictly between **$[-1, 1]$**.
 
 **Final Feature Input Dimensions:** $\mathbf{X} \in \mathbb{R}^{\text{Batch} \times \text{Channel} \times \text{Freq} \times \text{Time}} \longrightarrow [B \times 1 \times 128 \times 94]$
@@ -60,11 +59,11 @@ The core classifier is a custom, deep 2D Convolutional Neural Network specialize
 Following validation and training convergence over the variable-length Fake-or-Real (FoR) split testing partition, the audited metrics comfortably surpassed all baseline targets:
 
 ### Core Performance Metrics
-* **Overall Test Accuracy:** **89.94%** *(Project Target: $\ge$ 80%)*
-* **Equal Error Rate (EER):** **10.07%** *(Project Target: $\le$ 12%)* — Calculated dynamically using Scipy's optimized **BrentQ root-finding method**, representing the strict operational intersection where FAR equals FRR.
-* **F1-Score Metric:** **90.15%** *(Project Target: $\ge$ 80%)*
-* **Genuine Per-Class Accuracy:** **89.93%** *(Project Target: $\ge$ 75%)*
-* **Deepfake Per-Class Accuracy:** **89.96%** *(Project Target: $\ge$ 75%)*
+* **Overall Test Accuracy:** **89.94%** *(Project Target:  80%)*
+* **Equal Error Rate (EER):** **10.07%** *(Project Target:  12%)* — Calculated dynamically using Scipy's optimized **BrentQ root-finding method**, representing the strict operational intersection where FAR equals FRR.
+* **F1-Score Metric:** **90.15%** *(Project Target:  80%)*
+* **Genuine Per-Class Accuracy:** **89.93%** *(Project Target: 75%)*
+* **Deepfake Per-Class Accuracy:** **89.96%** *(Project Target:  75%)*
 * **Optimal Decision Boundary Logit:** **0.0002** ($\approx \mathbf{0.5000}$ Sigmoid Probability), validating the mathematical calibration of our classification threshold.
 
 * *The extremely small variance (**0.03%**) between per-class metrics indicates that the network is exceptionally well-balanced and free from majority-class prediction bias.*
